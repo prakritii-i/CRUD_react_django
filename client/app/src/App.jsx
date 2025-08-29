@@ -22,13 +22,46 @@ function App() {
     }
   };
 
+  const addBook = async () => {
+    const bookData={
+      title,
+      release_year
+    };
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/books/create/", {
+      method: "POST",
+      headers:{
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bookData),
+    });
+    const data = await response.json();
+      setBooks((prev) => [...prev, data]);
+
+    // console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+
+
+  };
+
   return (
     <>
       <h1>Books Website</h1>
       <div>
-        <input type="text" name="" id="" placeholder="Book Title...." />
-        <input type="text" name="" id="" placeholder="Release Year" />
-        <button>Add Book</button>
+        <input 
+        type="text" name="" id="" 
+        placeholder="Book Title...." 
+        onChange={(e) =>setTitle(e.target.value)}
+        />
+
+        <input 
+        type="text" name="" id="" 
+        placeholder="Release Year" 
+        onChange={(e) => setRelease_year(e.target.value)}
+        />
+        <button onClick={addBook}> Add Book </button>
       </div>
       {books.map((book) => 
       <div>
